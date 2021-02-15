@@ -79,6 +79,9 @@ class RDoc::Markup::AttributeManager
     add_html "b",  :BOLD
     add_html "tt",   :TT
     add_html "code", :TT
+
+    @word_pair_map[%r'(`)([^`]*)(`)'] = @attributes.bitmap_for(:TT)
+    @protectable << '`'
   end
 
   ##

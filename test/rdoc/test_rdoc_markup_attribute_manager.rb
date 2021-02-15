@@ -52,17 +52,20 @@ class TestRDocMarkupAttributeManager < RDoc::TestCase
   end
 
   def test_add_html_tag
+    old_size = @am.html_tags.size
     @am.add_html("Test", :TEST)
     tags = @am.html_tags
-    assert_equal(6, tags.size)
+    assert_equal(old_size + 1, tags.size)
     assert(tags.has_key?("test"))
   end
 
   def test_add_regexp_handling
+    old_size = @am.regexp_handlings.size
+
     @am.add_regexp_handling "WikiWord", :WIKIWORD
     regexp_handlings = @am.regexp_handlings
 
-    assert_equal 1, regexp_handlings.size
+    assert_equal old_size + 1, regexp_handlings.size
     assert regexp_handlings.assoc "WikiWord"
   end
 
@@ -365,6 +368,14 @@ class TestRDocMarkupAttributeManager < RDoc::TestCase
   def test_tt_html
     assert_equal [@tt_on, '"\n"', @tt_off],
                  @am.flow('<tt>"\n"</tt>')
+  end
+
+  def test_tt_backquote
+    assert_equal(["cat ", @tt_on, "and", @tt_off, " dog"],
+                  @am.flow("cat `and` dog"))
+
+    assert_equal(["cat ", @tt_on, "+", @tt_off, " dog"],
+                  @am.flow("cat `+` dog"))
   end
 
   def output str
