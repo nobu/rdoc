@@ -39,6 +39,20 @@ class TestRDocMarkupToHtmlCrossref < XrefTestCase
     end
   end
 
+  def test_convert_CROSSREF_backquote
+    @options.hyperlink_all = false
+    @to = RDoc::Markup::ToHtmlCrossref.new @options, 'C1.html', @c1
+    @c1.methods_hash.clear
+
+    i_op = RDoc::AnyMethod.new nil, "`"
+    i_op.singleton = false
+    @c1.add_method i_op
+
+    text = "#`something`"
+    result = @to.convert text
+    assert_equal para("<a href=\"C1.html#method-i-60\"><code>`something`</code></a>"), result, text
+  end
+
   def test_convert_CROSSREF_label
     result = @to.convert 'C1@foo'
     assert_equal para("<a href=\"C1.html#class-C1-label-foo\">foo at <code>C1</code></a>"), result

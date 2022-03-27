@@ -143,6 +143,8 @@ class RDoc::Markup::ToHtmlCrossref < RDoc::Markup::ToHtml
       label = $'
     elsif /\A([-+!])\w+\z/ =~ text
       name = "#$1@"
+    elsif /\A`\w+`\z/ =~ text
+      name = '`'
     end
 
     ref = @cross_reference.resolve name, text
