@@ -34,7 +34,8 @@ class RDoc::CrossReference
 
   METHOD_REGEXP_STR = /(
     (?!\d)[\w#{RDoc::Markup::AttributeManager::PROTECT_ATTR}]+[!?=]?|
-    %|=(?:==?|~)|![=~]|\[\]=?|<(?:<|=>?)?|>[>=]?|[-+!](?:@|\w+)?|\*\*?|[\/%\`|&^~]
+    %|=(?:==?|~)|![=~]|\[\]=?|<(?:<|=>?)?|>[>=]?|[-+!](?:@|\w+)?|\*\*?|
+    [\/%|&^~]|`(?:\w+`)?
   )#{METHOD_ARGS_REGEXP_STR}/.source.delete("\n ").freeze
 
   ##
@@ -144,6 +145,9 @@ class RDoc::CrossReference
       container = @context.find_symbol_module($1)
     elsif /^#([-+!])\w+$/o =~ name then # unary operator
       method = "##$1@"
+      container = @context
+    elsif /^#`\w+`$/ =~ name then
+      method = "#`"
       container = @context
     elsif /^([.#]|::)#{METHOD_REGEXP_STR}/o =~ name then
       type = $1
