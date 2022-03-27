@@ -197,6 +197,18 @@ class TestRDocCrossReference < XrefTestCase
     end
   end
 
+  def test_resolve_unary_oeprator
+    %w[+ - !].each do |x|
+      @c1.methods_hash.clear
+
+      i_op = RDoc::AnyMethod.new nil, "#{x}@"
+      i_op.singleton = false
+      @c1.add_method i_op
+
+      assert_ref i_op, "##{x}obj"
+    end
+  end
+
   def test_resolve_no_ref
     assert_equal '', @xref.resolve('', '')
 
