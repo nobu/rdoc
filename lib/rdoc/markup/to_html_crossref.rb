@@ -141,6 +141,9 @@ class RDoc::Markup::ToHtmlCrossref < RDoc::Markup::ToHtml
     if !(name.end_with?('+@', '-@')) and name =~ /(.*[^#:])@/
       name = $1
       label = $'
+    elsif label = name[/\A@\K[\w+]+\z/]
+      text = CGI.unescape(label) if code and text == name
+      return "<a href=\"#label-#{label}\">#{text}</a>"
     end
 
     ref = @cross_reference.resolve name, text
