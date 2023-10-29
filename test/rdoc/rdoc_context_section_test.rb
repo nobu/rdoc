@@ -51,9 +51,9 @@ class RDocContextSectionTest < RDoc::TestCase
   def test_eql_eh
     other = @S.new @klass, 'other', comment('# comment', @top_level)
 
-    assert @s.eql? @s
-    assert @s.eql? @s.dup
-    refute @s.eql? other
+    assert_operator @s, :eql?, @s
+    assert_operator @s, :eql?, @s.dup
+    refute_operator @s, :eql?, other
   end
 
   def test_equals

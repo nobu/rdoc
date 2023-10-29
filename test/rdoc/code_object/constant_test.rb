@@ -15,11 +15,11 @@ class RDocConstantTest < XrefTestCase
     const = RDoc::Constant.new 'CONST', nil, nil
     top_level.add_constant const
 
-    refute const.documented?
+    refute_predicate const, :documented?
 
     const.comment = comment 'comment'
 
-    assert const.documented?
+    assert_predicate const, :documented?
   end
 
   def test_documented_eh_alias
@@ -28,15 +28,15 @@ class RDocConstantTest < XrefTestCase
     const = RDoc::Constant.new 'CONST', nil, nil
     top_level.add_constant const
 
-    refute const.documented?
+    refute_predicate const, :documented?
 
     const.is_alias_for = 'C1'
 
-    refute const.documented?
+    refute_predicate const, :documented?
 
     @c1.add_comment comment('comment'), @top_level
 
-    assert const.documented?
+    assert_predicate const, :documented?
   end
 
   def test_full_name
@@ -118,7 +118,7 @@ class RDocConstantTest < XrefTestCase
     assert_equal cm,             loaded.parent
     assert_equal section,        loaded.section
 
-    assert                       loaded.display?
+    assert_predicate             loaded, :display?
   end
 
   def test_marshal_load_version_0
@@ -150,7 +150,7 @@ class RDocConstantTest < XrefTestCase
     assert_equal cm,             loaded.parent
     assert_equal section,        loaded.section
 
-    assert loaded.display?
+    assert_predicate loaded, :display?
   end
 
   def test_marshal_round_trip

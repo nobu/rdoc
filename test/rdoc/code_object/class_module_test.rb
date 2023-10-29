@@ -90,42 +90,42 @@ class RDocClassModuleTest < XrefTestCase
   end
 
   def test_document_self_or_methods
-    assert @c1.document_self_or_methods
+    assert_predicate @c1, :document_self_or_methods
 
     @c1.document_self = false
 
-    assert @c1.document_self_or_methods
+    assert_predicate @c1, :document_self_or_methods
 
     @c1_plus.document_self = false
     @c1_m.document_self = false
 
-    assert @c1.document_self_or_methods
+    assert_predicate @c1, :document_self_or_methods
 
     @c1__m.document_self = false
 
-    refute @c1.document_self_or_methods
+    refute_predicate @c1, :document_self_or_methods
   end
 
   def test_documented_eh
     cm = RDoc::ClassModule.new 'C'
 
-    refute cm.documented?, 'no comments, no markers'
+    refute_predicate cm, :documented?, 'no comments, no markers'
 
     cm.add_comment '', @top_level
 
-    refute cm.documented?, 'empty comment'
+    refute_predicate cm, :documented?, 'empty comment'
 
     cm.add_comment 'hi', @top_level
 
-    assert cm.documented?, 'commented'
+    assert_predicate cm, :documented?, 'commented'
 
     cm.comment_location.clear
 
-    refute cm.documented?, 'no comment'
+    refute_predicate cm, :documented?, 'no comment'
 
     cm.document_self = nil # notify :nodoc:
 
-    assert cm.documented?, ':nodoc:'
+    assert_predicate cm, :documented?, ':nodoc:'
   end
 
   def test_each_ancestor
@@ -340,12 +340,12 @@ class RDocClassModuleTest < XrefTestCase
     assert_nil                       loaded.file
     assert_empty                     loaded.in_files
     assert_nil                       loaded.parent
-    assert                           loaded.current_section
+    assert_predicate                 loaded, :current_section
 
     expected = { nil => s0 }
     assert_equal expected, loaded.sections_hash
 
-    assert loaded.display?
+    assert_predicate loaded, :display?
   end
 
   def test_marshal_load_version_1
@@ -416,7 +416,7 @@ class RDocClassModuleTest < XrefTestCase
     assert_equal 'Super',            loaded.superclass
     assert_empty                     loaded.in_files
     assert_nil                       loaded.parent
-    assert                           loaded.current_section
+    assert_predicate                 loaded, :current_section
 
     assert_equal tl, loaded.attributes.first.file
     assert_equal tl, loaded.constants.first.file
@@ -500,7 +500,7 @@ class RDocClassModuleTest < XrefTestCase
     assert_equal 'Super',            loaded.superclass
     assert_empty                     loaded.in_files
     assert_nil                       loaded.parent
-    assert                           loaded.current_section
+    assert_predicate                 loaded, :current_section
 
     assert_equal tl, loaded.attributes. first.file
     assert_equal tl, loaded.constants.  first.file
@@ -597,7 +597,7 @@ class RDocClassModuleTest < XrefTestCase
     assert_equal 'Klass',            loaded.name
     assert_equal 'Super',            loaded.superclass
     assert_equal 'Namespace',        loaded.parent.name
-    assert                           loaded.current_section
+    assert_predicate                 loaded, :current_section
 
     expected = {
       nil       => s0,
@@ -665,8 +665,8 @@ class RDocClassModuleTest < XrefTestCase
     assert_equal 'Parent', c1.parent_name, 'original parent name'
     assert_equal 'Parent', c2.parent_name, 'merged parent name'
 
-    assert c1.current_section, 'original current_section'
-    assert c2.current_section, 'merged current_section'
+    assert_predicate c1, :current_section, 'original current_section'
+    assert_predicate c2, :current_section, 'merged current_section'
 
     comment, location = c2.comment_location.first
     assert_kind_of RDoc::Markup::Document, comment
@@ -1470,13 +1470,13 @@ class RDocClassModuleTest < XrefTestCase
     @c1.ancestors # cache included modules
 
     @m1_m2.document_self = nil
-    assert @m1_m2.remove_from_documentation?
+    assert_predicate @m1_m2, :remove_from_documentation?
 
-    assert @store.modules_hash.key? @m1_m2.full_name
-    refute @store.modules_hash[@m1_m2.full_name].nil?
+    assert_operator @store.modules_hash, :key?, @m1_m2.full_name
+    refute_predicate @store.modules_hash[@m1_m2.full_name], :nil?
 
     @store.remove_nodoc @store.modules_hash
-    refute @store.modules_hash.key? @m1_m2.full_name
+    refute_operator @store.modules_hash, :key?, @m1_m2.full_name
 
     @c1.update_includes
 
@@ -1507,12 +1507,12 @@ class RDocClassModuleTest < XrefTestCase
     @c1.ancestors # cache included modules
 
     @m1_m2.document_self = nil
-    assert @m1_m2.remove_from_documentation?
+    assert_predicate @m1_m2, :remove_from_documentation?
 
-    assert @store.modules_hash.key? @m1_m2.full_name
-    refute @store.modules_hash[@m1_m2.full_name].nil?
+    assert_operator @store.modules_hash, :key?, @m1_m2.full_name
+    refute_predicate @store.modules_hash[@m1_m2.full_name], :nil?
     @store.remove_nodoc @store.modules_hash
-    refute @store.modules_hash.key? @m1_m2.full_name
+    refute_operator @store.modules_hash, :key?, @m1_m2.full_name
 
     @c1.update_includes
 
@@ -1530,12 +1530,12 @@ class RDocClassModuleTest < XrefTestCase
     @c1.extends.each do |extend| extend.module end # cache extended modules
 
     @m1_m2.document_self = nil
-    assert @m1_m2.remove_from_documentation?
+    assert_predicate @m1_m2, :remove_from_documentation?
 
-    assert @store.modules_hash.key? @m1_m2.full_name
-    refute @store.modules_hash[@m1_m2.full_name].nil?
+    assert_operator @store.modules_hash, :key?, @m1_m2.full_name
+    refute_predicate @store.modules_hash[@m1_m2.full_name], :nil?
     @store.remove_nodoc @store.modules_hash
-    refute @store.modules_hash.key? @m1_m2.full_name
+    refute_operator @store.modules_hash, :key?, @m1_m2.full_name
 
     @c1.update_extends
 
@@ -1566,13 +1566,13 @@ class RDocClassModuleTest < XrefTestCase
     @c1.extends.each do |extend| extend.module end # cache extended modules
 
     @m1_m2.document_self = nil
-    assert @m1_m2.remove_from_documentation?
+    assert_predicate @m1_m2, :remove_from_documentation?
 
-    assert @store.modules_hash.key? @m1_m2.full_name
-    refute @store.modules_hash[@m1_m2.full_name].nil?
+    assert_operator @store.modules_hash, :key?, @m1_m2.full_name
+    refute_predicate @store.modules_hash[@m1_m2.full_name], :nil?
 
     @store.remove_nodoc @store.modules_hash
-    refute @store.modules_hash.key? @m1_m2.full_name
+    refute_operator @store.modules_hash, :key?, @m1_m2.full_name
 
     @c1.update_extends
 

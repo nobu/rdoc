@@ -212,21 +212,21 @@ rdoc_include:
   def test_parse_coverage
     @options.parse %w[--dcov]
 
-    assert @options.coverage_report
-    assert @options.force_update
+    assert_predicate @options, :coverage_report
+    assert_predicate @options, :force_update
   end
 
   def test_parse_coverage_C
     @options.parse %w[-C]
 
-    assert @options.coverage_report
-    assert @options.force_update
+    assert_predicate @options, :coverage_report
+    assert_predicate @options, :force_update
   end
 
   def test_parse_coverage_no
     @options.parse %w[--no-dcov]
 
-    refute @options.coverage_report
+    refute_predicate @options, :coverage_report
   end
 
   def test_parse_coverage_level_1
@@ -245,7 +245,7 @@ rdoc_include:
     @options.parse %w[-C0]
 
     assert_equal 0, @options.coverage_report
-    assert @options.force_update
+    assert_predicate @options, :force_update
   end
 
   def test_parse_dash_p
@@ -253,7 +253,7 @@ rdoc_include:
       @options.parse %w[-p]
     end
 
-    assert @options.pipe
+    assert_predicate @options, :pipe
     refute_match %r%^Usage: %, err
     refute_match %r%^invalid options%, err
 
@@ -265,7 +265,7 @@ rdoc_include:
       @options.parse ['-p', File.expand_path(__FILE__)]
     end
 
-    refute @options.pipe
+    refute_predicate @options, :pipe
     refute_match %r%^Usage: %, err
     assert_match %r%^invalid options: -p .with files.%, err
 
@@ -299,7 +299,7 @@ rdoc_include:
   def test_parse_dry_run
     @options.parse %w[--dry-run]
 
-    assert @options.dry_run
+    assert_predicate @options, :dry_run
   end
 
   def test_parse_encoding
@@ -331,7 +331,7 @@ rdoc_include:
   def test_parse_force_update
     @options.parse %w[--force-update]
 
-    assert @options.force_update
+    assert_predicate @options, :force_update
 
     @options.parse %w[--no-force-update]
 
@@ -339,7 +339,7 @@ rdoc_include:
 
     @options.parse %w[-U]
 
-    assert @options.force_update
+    assert_predicate @options, :force_update
   end
 
   def test_parse_formatter_ri
@@ -807,11 +807,11 @@ rdoc_include:
   end
 
   def test_update_output_dir
-    assert @options.update_output_dir
+    assert_predicate @options, :update_output_dir
 
     @options.update_output_dir = false
 
-    refute @options.update_output_dir
+    refute_predicate @options, :update_output_dir
   end
 
   def test_warn

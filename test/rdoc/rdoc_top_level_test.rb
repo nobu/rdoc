@@ -110,7 +110,7 @@ class RDocTopLevelTest < XrefTestCase
   end
 
   def test_display_eh
-    assert @top_level.display?
+    assert_predicate @top_level, :display?
   end
 
   def test_eql_eh
@@ -204,7 +204,7 @@ class RDocTopLevelTest < XrefTestCase
 
     assert_equal document, loaded.comment.parse
 
-    assert loaded.display?
+    assert_predicate loaded, :display?
   end
 
   def test_name
@@ -265,12 +265,12 @@ class RDocTopLevelTest < XrefTestCase
     rd = @store.add_file 'rd_format.rd'
     rd.parser = RDoc::Parser::RD
 
-    assert rd.text?
+    assert_predicate rd, :text?
 
     simple = @store.add_file 'simple.txt'
     simple.parser = RDoc::Parser::Simple
 
-    assert simple.text?
+    assert_predicate simple, :text?
   end
 
   def test_text_eh_no_parser
@@ -278,7 +278,7 @@ class RDocTopLevelTest < XrefTestCase
 
     rd = @store.add_file 'rd_format.rd'
 
-    refute rd.text?
+    refute_predicate rd, :text?
   end
 
 end

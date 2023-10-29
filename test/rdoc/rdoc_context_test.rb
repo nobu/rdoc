@@ -102,7 +102,7 @@ class RDocContextTest < XrefTestCase
     assert_empty @context.unmatched_alias_lists
     assert_equal %w[old_name new_name], @context.method_list.map { |m| m.name }
 
-    assert @context.method_list.last.singleton
+    assert_predicate @context.method_list.last, :singleton
   end
 
   def test_add_class
@@ -518,7 +518,7 @@ class RDocContextTest < XrefTestCase
 
     m = @c1.find_class_method_named('m')
     assert_instance_of RDoc::AnyMethod, m
-    assert m.singleton
+    assert_predicate m, :singleton
   end
 
   def test_find_constant_named
@@ -537,7 +537,7 @@ class RDocContextTest < XrefTestCase
 
     m = @c1.find_instance_method_named('m')
     assert_instance_of RDoc::AnyMethod, m
-    refute m.singleton
+    refute_predicate m, :singleton
   end
 
   def test_find_local_symbol
@@ -594,41 +594,41 @@ class RDocContextTest < XrefTestCase
   def test_fully_documented_eh
     context = RDoc::Context.new
 
-    refute context.fully_documented?
+    refute_predicate context, :fully_documented?
 
     context.comment = 'hi'
 
-    assert context.fully_documented?
+    assert_predicate context, :fully_documented?
 
     m = @c1_m
 
     context.add_method m
 
-    refute context.fully_documented?
+    refute_predicate context, :fully_documented?
 
     m.comment = 'hi'
 
-    assert context.fully_documented?
+    assert_predicate context, :fully_documented?
 
     c = RDoc::Constant.new 'C', '0', nil
 
     context.add_constant c
 
-    refute context.fully_documented?
+    refute_predicate context, :fully_documented?
 
     c.comment = 'hi'
 
-    assert context.fully_documented?
+    assert_predicate context, :fully_documented?
 
     a = RDoc::Attr.new '', 'a', 'RW', nil
 
     context.add_attribute a
 
-    refute context.fully_documented?
+    refute_predicate context, :fully_documented?
 
     a.comment = 'hi'
 
-    assert context.fully_documented?
+    assert_predicate context, :fully_documented?
   end
 
   def test_spaceship

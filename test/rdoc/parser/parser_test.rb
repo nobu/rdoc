@@ -32,14 +32,14 @@ class RDocParserTest < RDoc::TestCase
       io.write 'lots of text ' * 500
     end
 
-    assert @RP.binary?(marshal)
+    assert_operator @RP, :binary?, marshal
   ensure
     File.unlink marshal
   end
 
   def test_class_binary_japanese_text
     file_name = File.expand_path '../../test.ja.txt', __FILE__
-    refute @RP.binary?(file_name)
+    refute_operator @RP, :binary?, file_name
   end
 
   def test_class_binary_large_japanese_rdoc
@@ -57,7 +57,7 @@ class RDocParserTest < RDoc::TestCase
 
   def test_class_binary_japanese_rdoc
     file_name = File.expand_path '../../test.ja.rdoc', __FILE__
-    refute @RP.binary?(file_name)
+    refute_operator @RP, :binary?, file_name
   end
 
   def test_class_can_parse

@@ -1282,11 +1282,11 @@ Foo::Bar#bother
       @driver.page do |io|
         omit "couldn't find a standard pager" if io == $stdout
 
-        assert @driver.paging?
+        assert_predicate @driver, :paging?
       end
     end
 
-    refute @driver.paging?
+    refute_predicate @driver, :paging?
   end
 
   def test_page_in_presence_of_child_status
@@ -1295,7 +1295,7 @@ Foo::Bar#bother
     with_dummy_pager do
       @driver.page do |io|
         refute_equal $stdout, io
-        assert @driver.paging?
+        assert_predicate @driver, :paging?
       end
     end
   end
@@ -1307,7 +1307,7 @@ Foo::Bar#bother
       assert_equal $stdout, io
     end
 
-    refute @driver.paging?
+    refute_predicate @driver, :paging?
   end
 
   def test_parse_name_method
@@ -1459,7 +1459,7 @@ Foo::Bar#bother
 
     omit "couldn't find a standard pager" unless pager
 
-    assert @driver.paging?
+    assert_predicate @driver, :paging?
   ensure
     pager.close if pager
   end

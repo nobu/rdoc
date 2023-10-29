@@ -51,7 +51,7 @@ msgstr "Bonjour"
       PO
     end
 
-    assert @locale.load(@locale_dir)
+    assert_send [@locale, :load, @locale_dir]
     assert_equal 'Bonjour', @locale.translate('Hello')
   end
 

@@ -114,13 +114,13 @@ class C; end
     util_parser('B::C').get_class_or_module ctxt
 
     b = @store.find_module_named('A::B')
-    assert b.ignored?
+    assert_predicate b, :ignored?
 
     d = @top_level.add_class RDoc::NormalClass, 'A::D'
 
     util_parser('D::E').get_class_or_module ctxt
 
-    refute d.ignored?
+    refute_predicate d, :ignored?
   end
 
   def test_get_class_or_module_ignore_constants
@@ -180,9 +180,9 @@ class C; end
 
     @parser.suppress_parents c, a
 
-    assert c.suppressed?
-    assert b.suppressed?
-    refute a.suppressed?
+    assert_predicate c, :suppressed?
+    assert_predicate b, :suppressed?
+    refute_predicate a, :suppressed?
   end
 
   def test_suppress_parents_documented
@@ -195,9 +195,9 @@ class C; end
 
     @parser.suppress_parents c, a
 
-    assert c.suppressed?
-    refute b.suppressed?
-    refute a.suppressed?
+    assert_predicate c, :suppressed?
+    refute_predicate b, :suppressed?
+    refute_predicate a, :suppressed?
   end
 
   def test_look_for_directives_in_attr
@@ -402,7 +402,7 @@ ruby
     assert_equal klass,      alas.parent
     assert_equal 'comment',  alas.comment
     assert_equal @top_level, alas.file
-    assert                   alas.singleton
+    assert_predicate         alas, :singleton
   end
 
   def test_parse_alias_stopdoc
@@ -1121,7 +1121,7 @@ end
 
     # make sure non-constant-named module will be removed from documentation
     d = @store.modules_hash['A::d']
-    assert d.remove_from_documentation?
+    assert_predicate d, :remove_from_documentation?
   end
 
   def test_parse_class_single_gvar
@@ -1139,7 +1139,7 @@ end
     assert_empty @store.all_classes
     mod = @store.all_modules.first
 
-    refute mod.document_self
+    refute_predicate mod, :document_self
 
     assert_empty mod.method_list
   end
@@ -1433,7 +1433,7 @@ EOF
 
     @parser.parse_constant klass, tk, @comment
 
-    assert klass.constants.empty?
+    assert_predicate klass.constants, :empty?
   end
 
   def test_parse_constant_alias
@@ -1521,9 +1521,7 @@ A::B::C = 1
 
     tk = @parser.get_tk
 
-    parsed = @parser.parse_constant @top_level, tk, 'comment'
-
-    assert parsed
+    assert_send [@parser, :parse_constant, @top_level, tk, 'comment']
 
     a = @top_level.find_module_named 'A'
     b = a.find_module_named 'B'
@@ -1974,7 +1972,7 @@ end
     assert_equal 'C::[]', c.method_list[1].full_name
     assert_equal 'C#[]=', c.method_list[2].full_name
     assert_equal 'C::[]=', c.method_list[3].full_name
-    assert c.aliases.empty?
+    assert_predicate c.aliases, :empty?
   end
 
   def test_parse_method_alias
@@ -1987,7 +1985,7 @@ end
 
     @parser.parse_method klass, RDoc::Parser::Ruby::NORMAL, tk, @comment
 
-    assert klass.aliases.empty?
+    assert_predicate klass.aliases, :empty?
   end
 
   def test_parse_method_ampersand
@@ -2002,7 +2000,7 @@ end
 
     ampersand = klass.method_list.first
     assert_equal '&', ampersand.name
-    assert            ampersand.singleton
+    assert_predicate  ampersand, :singleton
   end
 
   def test_parse_method_constant
@@ -2053,7 +2051,7 @@ end
 
     @parser.parse_method @top_level, RDoc::Parser::Ruby::NORMAL, tk, @comment
 
-    assert @top_level.method_list.empty?
+    assert_predicate @top_level.method_list, :empty?
   end
 
   def test_parse_method_gvar_insane
@@ -2063,13 +2061,13 @@ end
 
     @parser.parse_method @top_level, RDoc::Parser::Ruby::NORMAL, tk, @comment
 
-    assert @top_level.method_list.empty?
+    assert_predicate @top_level.method_list, :empty?
 
     assert_empty @store.all_classes
 
     assert_equal 1, @store.all_modules.length
 
-    refute @store.all_modules.first.document_self
+    refute_predicate @store.all_modules.first, :document_self
   end
 
   def test_parse_method_internal_gvar
@@ -2221,7 +2219,7 @@ end
 
     ampersand = klass.method_list.first
     assert_equal '*', ampersand.name
-    assert            ampersand.singleton
+    assert_predicate  ampersand, :singleton
   end
 
   def test_parse_method_stopdoc
@@ -2474,7 +2472,7 @@ end
 
     @parser.parse_statements klass, RDoc::Parser::Ruby::NORMAL, nil
 
-    assert klass.done_documenting
+    assert_predicate klass, :done_documenting
   end
 
   def test_parse_statements_enddoc_top_level
@@ -3144,7 +3142,7 @@ RUBY
 
     @parser.parse_statements @top_level, RDoc::Parser::Ruby::NORMAL, m
 
-    assert m.calls_super
+    assert_predicate m, :calls_super
   end
 
   def test_parse_statements_super_no_method
@@ -3290,7 +3288,7 @@ end
     assert_equal 1, @top_level.classes.length
     assert_empty @top_level.modules
 
-    assert @top_level.find_module_named('Example').ignored?
+    assert_predicate @top_level.find_module_named('Example'), :ignored?
   end
 
   # This tests parse_comment
@@ -3403,7 +3401,7 @@ end
 
     parser.read_documentation_modifiers m, %w[notnew]
 
-    assert m.dont_rename_initialize
+    assert_predicate m, :dont_rename_initialize
   end
 
   def test_read_documentation_modifiers_not_dash_new
@@ -3413,7 +3411,7 @@ end
 
     parser.read_documentation_modifiers m, %w[not-new]
 
-    assert m.dont_rename_initialize
+    assert_predicate m, :dont_rename_initialize
   end
 
   def test_read_documentation_modifiers_not_new
@@ -3423,7 +3421,7 @@ end
 
     parser.read_documentation_modifiers m, %w[not_new]
 
-    assert m.dont_rename_initialize
+    assert_predicate m, :dont_rename_initialize
   end
 
   def test_sanity_integer
@@ -3678,7 +3676,7 @@ end
 
     c = @top_level.modules.first.constants.first
 
-    assert c.documented?
+    assert_predicate c, :documented?
   end
 
   def test_scan_constant_nodoc_block
@@ -3696,7 +3694,7 @@ end
 
     c = @top_level.modules.first.constants.first
 
-    assert c.documented?
+    assert_predicate c, :documented?
   end
 
   def test_scan_duplicate_module
@@ -3882,8 +3880,8 @@ end
 
     hidden = c.classes.first
 
-    refute hidden.document_self
-    assert hidden.ignored?
+    refute_predicate hidden, :document_self
+    assert_predicate hidden, :ignored?
   end
 
   def test_scan_stopdoc_class_alias
@@ -3901,7 +3899,7 @@ end
     assert_equal 1, @store.all_modules.length
     m = @store.all_modules.first
 
-    assert m.ignored?
+    assert_predicate m, :ignored?
   end
 
   def test_scan_stopdoc_nested
@@ -3916,11 +3914,11 @@ end
     a   = @store.modules_hash['A']
     a_b = @store.classes_hash['A::B']
 
-    refute a.document_self, 'A is inside stopdoc'
-    assert a.ignored?,      'A is inside stopdoc'
+    refute_predicate a, :document_self, 'A is inside stopdoc'
+    assert_predicate a, :ignored?,      'A is inside stopdoc'
 
-    refute a_b.document_self, 'A::B is inside stopdoc'
-    assert a_b.ignored?,      'A::B is inside stopdoc'
+    refute_predicate a_b, :document_self, 'A::B is inside stopdoc'
+    assert_predicate a_b, :ignored?,      'A::B is inside stopdoc'
   end
 
   def test_scan_struct_self_brackets
@@ -3958,12 +3956,12 @@ end
     c_a = c.find_method_named 'a'
 
     assert_equal :private, c_a.visibility
-    refute c_a.singleton
+    refute_predicate c_a, :singleton
 
     c_b = c.find_method_named 'b'
 
     assert_equal :private, c_b.visibility
-    assert c_b.singleton
+    assert_predicate c_b, :singleton
   end
 
   def test_scan_visibility_count
@@ -4055,7 +4053,7 @@ end
     c_a = c.find_method_named 'a'
 
     assert_equal :public, c_a.visibility
-    assert c_a.singleton
+    assert_predicate c_a, :singleton
   end
 
   def test_stopdoc_after_comment

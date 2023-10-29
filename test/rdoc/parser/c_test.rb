@@ -273,7 +273,7 @@ void Init_Blah(void) {
 
     assert_equal 2,      methods.length
     assert_equal 'bleh', methods.last.name
-    assert               methods.last.singleton
+    assert_predicate     methods.last, :singleton
     assert_equal 'blah', methods.last.is_alias_for.name
     assert_equal 'This should show up as an alias', methods.last.comment.text
   end
@@ -778,7 +778,7 @@ void Init_Blah(void) {
     methods = klass.method_list
     assert_equal 1,      methods.length
     assert_equal 'blah', methods.first.name
-    assert               methods.first.singleton
+    assert_predicate     methods.first, :singleton
   end
 
   def test_do_methods_nested_module_singleton_class

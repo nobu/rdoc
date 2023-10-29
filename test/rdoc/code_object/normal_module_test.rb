@@ -36,7 +36,7 @@ class RDocNormalModuleTest < XrefTestCase
   end
 
   def test_module_eh
-    assert @mod.module?
+    assert_predicate @mod, :module?
   end
 
 end

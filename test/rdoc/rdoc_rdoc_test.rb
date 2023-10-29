@@ -31,7 +31,7 @@ class RDocRDocTest < RDoc::TestCase
         rdoc.document options
       end
 
-      assert File.directory? 'ri'
+      assert_directory 'ri'
     end
 
     store = rdoc.store
@@ -451,8 +451,8 @@ class RDocRDocTest < RDoc::TestCase
 
       assert_empty last
 
-      assert File.directory? path
-      assert File.exist? @rdoc.output_flag_file path
+      assert_directory path
+      assert_file @rdoc.output_flag_file path
     }
   end
 
@@ -523,7 +523,7 @@ class RDocRDocTest < RDoc::TestCase
     Dir.mktmpdir do |d|
       @rdoc.update_output_dir d, Time.now, {}
 
-      assert File.exist? "#{d}/created.rid"
+      assert_file "#{d}/created.rid"
     end
   end
 
@@ -553,7 +553,7 @@ class RDocRDocTest < RDoc::TestCase
 
       @rdoc.update_output_dir d, Time.now, {}
 
-      assert File.exist? "#{d}/created.rid"
+      assert_file "#{d}/created.rid"
 
       f = File.open("#{d}/created.rid", 'r')
       head_timestamp = Time.parse f.gets.chomp

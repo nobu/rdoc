@@ -119,8 +119,8 @@ class RDocMarkupToTableOfContentsTest < RDoc::Markup::FormatterTestCase
 
     @to.omit_headings_below = 1
 
-    refute @to.suppressed? head(1, '')
-    assert @to.suppressed? head(2, '')
+    refute_operator @to, :suppressed?, head(1, '')
+    assert_operator @to, :suppressed?, head(2, '')
   end
 
 end

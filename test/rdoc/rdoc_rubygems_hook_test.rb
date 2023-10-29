@@ -67,13 +67,13 @@ class RDocRubyGemsHookTest < Test::Unit::TestCase
   end
 
   def test_initialize
-    refute @hook.generate_rdoc
-    assert @hook.generate_ri
+    refute_predicate @hook, :generate_rdoc
+    assert_predicate @hook, :generate_ri
 
     rdoc = RDoc::RubyGemsHook.new @a, false, false
 
-    refute rdoc.generate_rdoc
-    refute rdoc.generate_ri
+    refute_predicate rdoc, :generate_rdoc
+    refute_predicate rdoc, :generate_ri
   end
 
   def test_delete_legacy_args
@@ -100,7 +100,7 @@ class RDocRubyGemsHookTest < Test::Unit::TestCase
 
     @hook.document 'aliki', options, @a.doc_dir('rdoc')
 
-    assert @hook.rdoc_installed?
+    assert_predicate @hook, :rdoc_installed?
   end
 
   def test_generate
@@ -109,12 +109,12 @@ class RDocRubyGemsHookTest < Test::Unit::TestCase
 
     @hook.generate
 
-    refute @hook.rdoc_installed?
-    assert @hook.ri_installed?
+    refute_predicate @hook, :rdoc_installed?
+    assert_predicate @hook, :ri_installed?
 
     rdoc = @hook.instance_variable_get :@rdoc
 
-    refute rdoc.options.hyperlink_all
+    refute_predicate rdoc.options, :hyperlink_all
     assert_equal Pathname(@a.full_gem_path), rdoc.options.root
     assert_equal %w[README lib], rdoc.options.files.sort
 
@@ -134,12 +134,12 @@ class RDocRubyGemsHookTest < Test::Unit::TestCase
 
     @hook.generate
 
-    assert @hook.rdoc_installed?
-    assert @hook.ri_installed?
+    assert_predicate @hook, :rdoc_installed?
+    assert_predicate @hook, :ri_installed?
 
     rdoc = @hook.instance_variable_get :@rdoc
 
-    refute rdoc.options.hyperlink_all
+    refute_predicate rdoc.options, :hyperlink_all
     assert_equal Pathname(@a.full_gem_path), rdoc.options.root
     assert_equal %w[README lib], rdoc.options.files.sort
 
@@ -156,7 +156,7 @@ class RDocRubyGemsHookTest < Test::Unit::TestCase
 
     rdoc = @hook.instance_variable_get :@rdoc
 
-    assert rdoc.options.hyperlink_all
+    assert_predicate rdoc.options, :hyperlink_all
   end
 
   def test_generate_configuration_rdoc_string
@@ -169,7 +169,7 @@ class RDocRubyGemsHookTest < Test::Unit::TestCase
 
     rdoc = @hook.instance_variable_get :@rdoc
 
-    assert rdoc.options.hyperlink_all
+    assert_predicate rdoc.options, :hyperlink_all
   end
 
   def test_generate_default_gem
@@ -184,8 +184,8 @@ class RDocRubyGemsHookTest < Test::Unit::TestCase
 
     @hook.generate
 
-    refute @hook.rdoc_installed?
-    refute @hook.ri_installed?
+    refute_predicate @hook, :rdoc_installed?
+    refute_predicate @hook, :ri_installed?
   end
 
   def test_generate_disabled
@@ -194,8 +194,8 @@ class RDocRubyGemsHookTest < Test::Unit::TestCase
 
     @hook.generate
 
-    refute @hook.rdoc_installed?
-    refute @hook.ri_installed?
+    refute_predicate @hook, :rdoc_installed?
+    refute_predicate @hook, :ri_installed?
   end
 
   def test_generate_force
@@ -258,11 +258,11 @@ class RDocRubyGemsHookTest < Test::Unit::TestCase
   end
 
   def test_rdoc_installed?
-    refute @hook.rdoc_installed?
+    refute_predicate @hook, :rdoc_installed?
 
     FileUtils.mkdir_p @a.doc_dir 'rdoc'
 
-    assert @hook.rdoc_installed?
+    assert_predicate @hook, :rdoc_installed?
   end
 
   def test_remove
@@ -271,8 +271,8 @@ class RDocRubyGemsHookTest < Test::Unit::TestCase
 
     @hook.remove
 
-    refute @hook.rdoc_installed?
-    refute @hook.ri_installed?
+    refute_predicate @hook, :rdoc_installed?
+    refute_predicate @hook, :ri_installed?
 
     assert_path_exist @a.doc_dir
   end
@@ -294,11 +294,11 @@ class RDocRubyGemsHookTest < Test::Unit::TestCase
   end
 
   def test_ri_installed?
-    refute @hook.ri_installed?
+    refute_predicate @hook, :ri_installed?
 
     FileUtils.mkdir_p @a.doc_dir 'ri'
 
-    assert @hook.ri_installed?
+    assert_predicate @hook, :ri_installed?
   end
 
   def test_setup

@@ -958,10 +958,10 @@ EXPECTED
       'class="foo"'
     ]
     valid_syntax.each do |t|
-      assert @to.parseable?(t), "valid syntax considered invalid: #{t}"
+      assert_operator @to, :parseable?, t, "valid syntax considered invalid: #{t}"
     end
     invalid_syntax.each do |t|
-      refute @to.parseable?(t), "invalid syntax considered valid: #{t}"
+      refute_operator @to, :parseable?, t, "invalid syntax considered valid: #{t}"
     end
   end
 

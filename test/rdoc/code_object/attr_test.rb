@@ -139,7 +139,7 @@ class RDocAttrTest < RDoc::TestCase
     assert_equal cm,           loaded.parent
     assert_equal section,      loaded.section
 
-    assert                     loaded.display?
+    assert_predicate           loaded, :display?
   end
 
   def test_marshal_load_version_2
@@ -169,7 +169,7 @@ class RDocAttrTest < RDoc::TestCase
     assert_equal cm,           loaded.parent
     assert_equal section,      loaded.section
 
-    assert loaded.display?
+    assert_predicate           loaded, :display?
   end
 
   def test_params

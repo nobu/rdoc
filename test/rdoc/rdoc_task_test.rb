@@ -21,7 +21,7 @@ class RDocTaskTest < RDoc::TestCase
 
   def test_inline_source
     _, err = verbose_capture_output do
-      assert @t.inline_source
+      assert_predicate @t, :inline_source
     end
 
     assert_include err, "RDoc::Task#inline_source is deprecated\n"
@@ -33,7 +33,7 @@ class RDocTaskTest < RDoc::TestCase
     assert_include err, "RDoc::Task#inline_source is deprecated\n"
 
     capture_output do
-      assert @t.inline_source
+      assert_predicate @t, :inline_source
     end
   end
 

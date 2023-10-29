@@ -375,11 +375,11 @@ class RDocStoreTest < XrefTestCase
   end
 
   def test_dry_run
-    refute @s.dry_run
+    refute_predicate @s, :dry_run
 
     @s.dry_run = true
 
-    assert @s.dry_run
+    assert_predicate @s, :dry_run
   end
 
   def test_instance_methods

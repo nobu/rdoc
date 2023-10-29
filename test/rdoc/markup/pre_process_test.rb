@@ -223,8 +223,8 @@ contents of a string.
 
     @pp.handle_directive '', 'doc', nil, code_object
 
-    assert code_object.document_self
-    assert code_object.force_documentation
+    assert_predicate code_object, :document_self
+    assert_predicate code_object, :force_documentation
   end
 
   def test_handle_directive_doc_no_context
@@ -238,7 +238,7 @@ contents of a string.
 
     @pp.handle_directive '', 'enddoc', nil, code_object
 
-    assert code_object.done_documenting
+    assert_predicate code_object, :done_documenting
   end
 
   def test_handle_directive_include
@@ -266,7 +266,7 @@ contents of a string.
 
     @pp.handle_directive '', 'notnew', nil, m
 
-    assert m.dont_rename_initialize
+    assert_predicate m, :dont_rename_initialize
   end
 
   def test_handle_directive_not_new
@@ -274,7 +274,7 @@ contents of a string.
 
     @pp.handle_directive '', 'not_new', nil, m
 
-    assert m.dont_rename_initialize
+    assert_predicate m, :dont_rename_initialize
   end
 
   def test_handle_directive_not_dash_new
@@ -282,7 +282,7 @@ contents of a string.
 
     @pp.handle_directive '', 'not-new', nil, m
 
-    assert m.dont_rename_initialize
+    assert_predicate m, :dont_rename_initialize
   end
 
   def test_handle_directive_nodoc
@@ -292,8 +292,8 @@ contents of a string.
 
     @pp.handle_directive '', 'nodoc', nil, code_object
 
-    refute code_object.document_self
-    assert code_object.document_children
+    refute_predicate code_object, :document_self
+    assert_predicate code_object, :document_children
   end
 
   def test_handle_directive_nodoc_all
@@ -303,8 +303,8 @@ contents of a string.
 
     @pp.handle_directive '', 'nodoc', 'all', code_object
 
-    refute code_object.document_self
-    refute code_object.document_children
+    refute_predicate code_object, :document_self
+    refute_predicate code_object, :document_children
   end
 
   def test_handle_directive_nodoc_no_context
@@ -379,9 +379,9 @@ contents of a string.
 
     @pp.handle_directive '', 'startdoc', nil, code_object
 
-    assert code_object.document_self
-    assert code_object.document_children
-    assert code_object.force_documentation
+    assert_predicate code_object, :document_self
+    assert_predicate code_object, :document_children
+    assert_predicate code_object, :force_documentation
   end
 
   def test_handle_directive_stopdoc
@@ -389,8 +389,8 @@ contents of a string.
 
     @pp.handle_directive '', 'stopdoc', nil, code_object
 
-    refute code_object.document_self
-    refute code_object.document_children
+    refute_predicate code_object, :document_self
+    refute_predicate code_object, :document_children
   end
 
   def test_handle_directive_title

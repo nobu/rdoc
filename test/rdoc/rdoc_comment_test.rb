@@ -255,11 +255,11 @@ lines, one line per element. Lines are assumed to be separated by _sep_.
   end
 
   def test_normalize_eh
-    refute @comment.normalized?
+    refute_predicate @comment, :normalized?
 
     @comment.normalize
 
-    assert @comment.normalized?
+    assert_predicate @comment, :normalized?
   end
 
   def test_text
@@ -270,7 +270,7 @@ lines, one line per element. Lines are assumed to be separated by _sep_.
     @comment.text = 'other'
 
     assert_equal 'other', @comment.text
-    refute @comment.normalized?
+    refute_predicate @comment, :normalized?
   end
 
   def test_text_equals_no_text
@@ -293,11 +293,11 @@ lines, one line per element. Lines are assumed to be separated by _sep_.
   end
 
   def test_tomdoc_eh
-    refute @comment.tomdoc?
+    refute_predicate @comment, :tomdoc?
 
     @comment.format = 'tomdoc'
 
-    assert @comment.tomdoc?
+    assert_predicate @comment, :tomdoc?
   end
 
   def test_parse

@@ -251,7 +251,7 @@ each_line(foo)
     assert_equal 'C2',    aliased_method.parent_name
     assert_equal '()',    aliased_method.params
     assert_equal @c2_b,   aliased_method.is_alias_for, 'is_alias_for'
-    assert                aliased_method.display?
+    assert_predicate      aliased_method, :display?
   end
 
   def test_marshal_load_aliased_method_with_nil_singleton
@@ -264,7 +264,7 @@ each_line(foo)
     assert_equal 'C2',    aliased_method.parent_name
     assert_equal '()',    aliased_method.params
     assert_equal @c2_b,   aliased_method.is_alias_for, 'is_alias_for'
-    assert                aliased_method.display?
+    assert_predicate      aliased_method, :display?
   end
 
   def test_marshal_load_class_method
@@ -273,7 +273,7 @@ each_line(foo)
     assert_equal 'C1::m', class_method.full_name
     assert_equal 'C1',    class_method.parent_name
     assert_equal '()',    class_method.params
-    assert                class_method.display?
+    assert_predicate      class_method, :display?
   end
 
   def test_marshal_load_instance_method
@@ -282,7 +282,7 @@ each_line(foo)
     assert_equal 'C1#m',  instance_method.full_name
     assert_equal 'C1',    instance_method.parent_name
     assert_equal '(foo)', instance_method.params
-    assert                instance_method.display?
+    assert_predicate      instance_method, :display?
   end
 
   def test_marshal_load_version_0
@@ -330,7 +330,7 @@ each_line(foo)
     assert_equal section,        loaded.section
     assert_nil                   loaded.is_alias_for
 
-    assert loaded.display?
+    assert_predicate             loaded, :display?
   end
 
   def test_marshal_dump_version_2

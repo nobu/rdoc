@@ -23,7 +23,7 @@ class RDocMarkupVerbatimTest < RDoc::TestCase
 
     verbatim.format = :ruby
 
-    assert verbatim.ruby?
+    assert_predicate verbatim, :ruby?
   end
 
 end

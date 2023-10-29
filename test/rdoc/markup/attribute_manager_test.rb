@@ -55,7 +55,7 @@ class RDocMarkupAttributeManagerTest < RDoc::TestCase
     @am.add_html("Test", :TEST)
     tags = @am.html_tags
     assert_equal(6, tags.size)
-    assert(tags.has_key?("test"))
+    assert_operator tags, :has_key?, "test"
   end
 
   def test_add_regexp_handling
@@ -63,15 +63,15 @@ class RDocMarkupAttributeManagerTest < RDoc::TestCase
     regexp_handlings = @am.regexp_handlings
 
     assert_equal 1, regexp_handlings.size
-    assert regexp_handlings.assoc "WikiWord"
+    assert_operator regexp_handlings, :assoc, "WikiWord"
   end
 
   def test_add_word_pair
     @am.add_word_pair '%', '&', 'percent and'
 
-    assert @am.word_pair_map.include?(/(%)(\S+)(&)/)
-    assert @am.protectable.include?('%')
-    assert !@am.protectable.include?('&')
+    assert_include @am.word_pair_map, /(%)(\S+)(&)/
+    assert_include @am.protectable, '%'
+    assert_not_include @am.protectable, '&'
   end
 
   def test_add_word_pair_angle
@@ -93,14 +93,14 @@ class RDocMarkupAttributeManagerTest < RDoc::TestCase
 
     word_pair_map = @am.word_pair_map
 
-    assert_includes word_pair_map.keys.map { |r| r.source }, "(x)(\\S+)(y)"
+    assert_include word_pair_map.keys.map(&:source), "(x)(\\S+)(y)"
   end
 
   def test_add_word_pair_matching
     @am.add_word_pair '^', '^', 'caret'
 
-    assert @am.matching_word_pairs.include?('^')
-    assert @am.protectable.include?('^')
+    assert_include @am.matching_word_pairs, '^'
+    assert_include @am.protectable, '^'
   end
 
   def test_basic
@@ -306,13 +306,13 @@ class RDocMarkupAttributeManagerTest < RDoc::TestCase
 
   def test_initial_html
     html_tags = @am.html_tags
-    assert html_tags.is_a?(Hash)
+    assert_kind_of(Hash, html_tags)
     assert_equal(5, html_tags.size)
   end
 
   def test_initial_word_pairs
     word_pairs = @am.matching_word_pairs
-    assert word_pairs.is_a?(Hash)
+    assert_kind_of(Hash, word_pairs)
     assert_equal(3, word_pairs.size)
   end
 

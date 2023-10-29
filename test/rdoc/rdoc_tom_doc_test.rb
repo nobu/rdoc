@@ -242,7 +242,7 @@ Examples
 
     document = @TD.parse(text)
     assert_equal expected, document
-    assert document.parts.last.ruby?
+    assert_predicate document.parts.last, :ruby?
   end
 
   def test_parse_examples_signature
