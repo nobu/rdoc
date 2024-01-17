@@ -166,7 +166,7 @@ class RDoc::Markup::AttributeManager
     tags = "[#{tags.join("")}](?!#{PROTECT_ATTR})"
     all_tags = "[#{@matching_word_pairs.keys.join("")}](?!#{PROTECT_ATTR})"
 
-    re = /(?:^|\W|#{all_tags})\K(#{tags})(\1*[#\\]?[\w:#{PROTECT_ATTR}.\/\[\]-]+?\S?)\1(?!\1)(?=#{all_tags}|\W|$)/
+    re = /(?:^|\W|#{all_tags})\K(#{tags})(\1*(?:[$#\\]|@@?)?[\w:#{PROTECT_ATTR}.\/\[\]-]+?\S?)\1(?!\1)(?=#{all_tags}|\W|$)/
 
     1 while str.gsub!(re) { |orig|
       a, w = (m = $~).values_at(1, 2)
