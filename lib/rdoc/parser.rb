@@ -230,7 +230,7 @@ class RDoc::Parser
   # Any comment style may be used to hide the markup comment.
 
   def self.use_markup(content)
-    markup = content.lines.first(3).grep(/markup:\s+(\w+)/) { $1 }.first
+    markup = content[/\A(.*\n){0,2}.*markup:\s+\K\w+/]
 
     return unless markup
 
