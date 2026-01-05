@@ -180,6 +180,8 @@ class RDoc::RDoc
       begin
         File.open flag_file do |io|
           unless force then
+            # TODO: Use `Time.new` instead of `Time.parse` and remove
+            # `require 'time'`, after dropping support for ruby 3.1.
             Time.parse io.gets
 
             io.each do |line|
@@ -218,9 +220,9 @@ option)
     end
 
     File.open output_flag_file(op_dir), "w" do |f|
-      f.puts time.rfc2822
+      f.puts time.getutc
       last.each do |n, t|
-        f.puts "#{n}\t#{t.rfc2822}"
+        f.puts "#{n}\t#{t.getutc}"
       end
     end
   end
